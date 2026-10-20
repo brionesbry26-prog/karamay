@@ -1,0 +1,55 @@
+{
+  "name": "karamay",
+  "version": "1.0.0",
+  "description": "KARAMAY — privacy-conscious emotional wellness and journaling app (secure backend + web client)",
+  "scripts": {
+    "dev": "node scripts/copy-fonts.mjs && tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-fonts.mjs",
+    "start": "node dist/src/server.js",
+    "migrate": "tsx src/db/migrate.ts",
+    "purge": "tsx src/ops/purge-cli.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "audit": "npm audit --omit=dev --audit-level=moderate",
+    "check:secrets": "node scripts/check-no-secrets.mjs",
+    "migrate:prod": "node dist/src/db/migrate.js",
+    "purge:prod": "node dist/src/ops/purge-cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/brionesbry26-prog/karamay.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/brionesbry26-prog/karamay/issues"
+  },
+  "homepage": "https://github.com/brionesbry26-prog/karamay#readme",
+  "dependencies": {
+    "@fastify/cookie": "^11.1.3",
+    "@fastify/cors": "^11.3.1",
+    "@fastify/helmet": "^13.2.0",
+    "@fastify/static": "^10.1.6",
+    "@google/genai": "^2.30.0",
+    "argon2": "^0.45.1",
+    "fastify": "^5.12.7",
+    "ioredis": "^6.0.0",
+    "pg": "^8.23.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@fontsource/montserrat": "^5.3.0",
+    "@types/node": "^26.6.5",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12"
+  }
+}

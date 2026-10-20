@@ -1,0 +1,33 @@
+{
+  "country": "PH",
+  "lastVerified": "2026-10-20",
+  "verificationNote": "Numbers were checked on 2026-10-20 against search results quoting the National Center for Mental Health contact page (ncmh.gov.ph/contact-us). The page itself could not be opened from the build environment. Re-verify every number directly with the source before launch and at least quarterly.",
+  "resources": [
+    {
+      "id": "ph-emergency-911",
+      "name": "Emergency hotline (Philippines)",
+      "nameFil": "Emergency hotline (Pilipinas)",
+      "description": "If you or someone else is in immediate danger.",
+      "descriptionFil": "Kung ikaw o ibang tao ay nasa agarang panganib.",
+      "phones": [{ "label": "Nationwide", "labelFil": "Buong bansa", "number": "911", "tel": "911" }],
+      "hours": "24/7",
+      "source": "Philippine national emergency hotline"
+    },
+    {
+      "id": "ncmh-crisis-hotline",
+      "name": "NCMH Crisis Hotline",
+      "nameFil": "NCMH Crisis Hotline",
+      "description": "National Center for Mental Health crisis line for emotional crisis and suicide prevention.",
+      "descriptionFil": "Crisis hotline ng National Center for Mental Health para sa emosyonal na krisis at pag-iwas sa pagpapakamatay.",
+      "phones": [
+        { "label": "Nationwide", "labelFil": "Buong bansa", "number": "1553", "tel": "1553" },
+        { "label": "Nationwide toll-free", "labelFil": "Toll-free sa buong bansa", "number": "1800-1888-1553", "tel": "180018881553" },
+        { "label": "Smart/TNT", "labelFil": "Smart/TNT", "number": "0919-057-1553", "tel": "+639190571553" },
+        { "label": "Globe/TM", "labelFil": "Globe/TM", "number": "0917-899-8727", "tel": "+639178998727" },
+        { "label": "Globe/TM", "labelFil": "Globe/TM", "number": "0966-351-4518", "tel": "+639663514518" }
+      ],
+      "hours": "24/7",
+      "source": "https://ncmh.gov.ph/contact-us/"
+    }
+  ]
+}

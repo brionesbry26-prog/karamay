@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+web/assets/fonts/
+# Secrets — never commit real values. Only .env.example belongs in git.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+npm-debug.log*
+.DS_Store

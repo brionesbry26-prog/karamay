@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="fil">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KARAMAY</title>
+  <meta name="description" content="KARAMAY — isang pribadong lugar para magkuwento, mag-journal, at huminga. A private space to talk, journal and breathe.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#7952C7">
+  <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Lumaktaw sa nilalaman · Skip to content</a>
+
+  <header class="topbar">
+    <a class="brand" href="#/" aria-label="KARAMAY home">
+      <img src="/assets/icon.svg" alt="" width="28" height="28">
+      <span>KARAMAY</span>
+    </a>
+    <nav class="mainnav" aria-label="Pangunahing menu · Main menu">
+      <a href="#/kausap">Kausap</a>
+      <a href="#/journal">Journal</a>
+      <a href="#/mood">Mood</a>
+      <a href="#/grounding">Grounding</a>
+      <a href="#/pakawalan">Pakawalan</a>
+      <a href="#/privacy">Privacy</a>
+      <a href="#/account" data-account-link>Account</a>
+    </nav>
+    <a class="help-now" href="#/tulong">Kailangan ng tulong ngayon?<span class="sub">Need help now?</span></a>
+  </header>
+
+  <div class="banner" id="offline-banner" role="status" hidden>Offline ka ngayon. Gumagana pa rin ang journal, mood at grounding sa device na ito. · You're offline; local tools still work.</div>
+
+  <main id="main" tabindex="-1">
+    <!-- HOME -->
+    <section data-view="home" aria-labelledby="home-title">
+      <h1 id="home-title">Kumusta ka ngayon?</h1>
+      <p class="lede">Isang tahimik na lugar para magkuwento, magsulat, at huminga. Walang kailangang i-sign up.<br><span class="en">A quiet place to talk, write and breathe. No sign-up needed.</span></p>
+
+      <h2 class="section-title">Paano kita matutulungan? <span class="en">How can I help?</span></h2>
+      <div class="cards modes">
+        <a class="card mode-card" href="#/kausap?mode=makikinig">
+          <span class="card-title">Makikinig Muna</span>
+          <span class="card-text">Gusto ko lang may makinig. <span class="en">I just want to be heard.</span></span>
+        </a>
+        <a class="card mode-card" href="#/kausap?mode=tulungan">
+          <span class="card-title">Tulungan Mo Ako</span>
+          <span class="card-text">Kailangan ko ng maliliit na hakbang. <span class="en">I want small, practical steps.</span></span>
+        </a>
+        <a class="card mode-card" href="#/kausap?mode=kuwento">
+          <span class="card-title">Kuwento Muna</span>
+          <span class="card-text">Gusto kong ikuwento at pag-isipan. <span class="en">I want to tell my story and reflect.</span></span>
+        </a>
+      </div>
+
+      <h2 class="section-title">Mga gamit na laging bukas <span class="en">Tools that always work</span></h2>
+      <div class="cards tools">
+        <a class="card" href="#/journal"><span class="card-title">Journal</span><span class="card-text">Pribadong sulatan na may gabay na tanong.</span></a>
+        <a class="card" href="#/mood"><span class="card-title">Mood check-in</span><span class="card-text">Isang maikling tanong: kumusta ang pakiramdam mo?</span></a>
+        <a class="card" href="#/grounding"><span class="card-title">Grounding</span><span class="card-text">5-4-3-2-1 at mabagal na paghinga.</span></a>
+        <a class="card" href="#/pakawalan"><span class="card-title">Pakawalan</span><span class="card-text">Isulat at bitawan. Hindi ito sine-save.</span></a>
+      </div>
+
+      <p class="disclaimer">Ang KARAMAY ay wellness tool, hindi kapalit ng propesyonal na mental health care o emergency services. <span class="en">KARAMAY is a wellness tool, not a substitute for professional care or emergency services.</span></p>
+    </section>
+
+    <!-- CHAT -->
+    <section data-view="kausap" aria-labelledby="chat-title" hidden>
+      <h1 id="chat-title">Kausap</h1>
+      <div class="mode-switch" role="radiogroup" aria-label="Paraan ng pakikipag-usap · Conversation mode">
+        <label><input type="radio" name="mode" value="makikinig" checked> Makikinig Muna</label>
+        <label><input type="radio" name="mode" value="tulungan"> Tulungan Mo Ako</label>
+        <label><input type="radio" name="mode" value="kuwento"> Kuwento Muna</label>
+      </div>
+
+      <div class="consent card" id="ai-consent" hidden>
+        <h2>Bago tayo mag-usap <span class="en">Before we talk</span></h2>
+        <ul>
+          <li>Ang mga mensahe mo rito ay ipinapadala sa <strong>Google Gemini</strong> (AI ng Google) para makabuo ng sagot. <span class="en">Your messages are sent to Google Gemini to generate replies.</span></li>
+          <li>Hindi sine-save ng KARAMAY ang usapan sa server. Nasa device mo lang ito habang bukas ang page. <span class="en">Chat messages are not stored on KARAMAY servers.</span></li>
+          <li>Iwasang ilagay ang buong pangalan, address, o numero mo. <span class="en">Avoid sharing your full name, address or numbers.</span></li>
+          <li>AI ito, hindi therapist o doktor, at hindi nito kayang matukoy ang lahat ng krisis. <span class="en">This is an AI, not a therapist, and it cannot detect every crisis.</span></li>
+        </ul>
+        <button type="button" class="btn primary" id="ai-consent-accept">Naiintindihan ko · I understand</button>
+        <a class="btn ghost" href="#/privacy">Alamin pa · Learn more</a>
+      </div>
+
+      <div class="chat" id="chat-panel">
+        <div class="messages" id="messages" role="log" aria-live="polite" aria-relevant="additions" aria-label="Usapan · Conversation"></div>
+        <div class="safety-card card" id="safety-card" role="region" aria-label="Mga mapagkukunan ng tulong · Crisis resources" hidden>
+          <h2>Hindi ka nag-iisa <span class="en">You are not alone</span></h2>
+          <p>Kung nasa agarang panganib ka, tumawag sa <a href="tel:911">911</a>. Bukas anumang oras ang NCMH Crisis Hotline sa <a href="tel:1553">1553</a>. <span class="en">In immediate danger, call 911. NCMH Crisis Hotline: 1553, any time.</span></p>
+          <a class="btn primary" href="#/tulong">Lahat ng numero · All hotlines</a>
+        </div>
+        <p class="status" id="chat-status" role="status" aria-live="polite"></p>
+        <form class="composer" id="chat-form" novalidate>
+          <label for="chat-input" class="visually-hidden">Ang mensahe mo · Your message</label>
+          <textarea id="chat-input" rows="3" maxlength="2000" placeholder="Isulat ang nasa loob mo… · Write what's on your mind…" required></textarea>
+          <div class="composer-row">
+            <span class="counter" id="chat-counter" aria-live="off">0 / 2000</span>
+            <span class="quota" id="chat-quota"></span>
+            <button type="button" class="btn ghost" id="chat-clear">Burahin ang usapan · Clear</button>
+            <button type="submit" class="btn primary" id="chat-send">Ipadala · Send</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- JOURNAL -->
+    <section data-view="journal" aria-labelledby="journal-title" hidden>
+      <h1 id="journal-title">Journal</h1>
+      <p class="storage-note" id="journal-storage-note"></p>
+      <form class="card form" id="journal-form" novalidate>
+        <input type="hidden" id="journal-id">
+        <label for="journal-prompt">Gabay na tanong (opsyonal) · Guided prompt (optional)</label>
+        <select id="journal-prompt">
+          <option value="">— Malayang pagsulat · Free writing —</option>
+          <option value="gratitude">Ano ang isang maliit na bagay na pinasasalamatan mo ngayon?</option>
+          <option value="heavy">Ano ang pinakamabigat sa loob mo ngayon, at bakit?</option>
+          <option value="kind">Ano ang sasabihin mo sa isang kaibigang nasa sitwasyon mo?</option>
+          <option value="proud">Ano ang nagawa mo ngayong linggo na ipinagmamalaki mo, kahit maliit?</option>
+          <option value="need">Ano ang kailangan mo ngayon na hindi mo pa nasasabi?</option>
+          <option value="tomorrow">Ano ang isang mabait na bagay na gagawin mo para sa sarili bukas?</option>
+        </select>
+        <label for="journal-entry-title">Pamagat · Title</label>
+        <input id="journal-entry-title" maxlength="200" autocomplete="off">
+        <label for="journal-body">Isulat mo rito · Write here</label>
+        <textarea id="journal-body" rows="8" maxlength="20000" required></textarea>
+        <div class="row">
+          <button type="submit" class="btn primary">I-save · Save</button>
+          <button type="button" class="btn ghost" id="journal-cancel" hidden>Kanselahin · Cancel</button>
+        </div>
+        <p class="status" id="journal-status" role="status" aria-live="polite"></p>
+      </form>
+      <h2 class="section-title">Mga naisulat mo <span class="en">Your entries</span></h2>
+      <ul class="entries" id="journal-list"></ul>
+    </section>
+
+    <!-- MOOD -->
+    <section data-view="mood" aria-labelledby="mood-title" hidden>
+      <h1 id="mood-title">Mood check-in</h1>
+      <form class="card form" id="mood-form" novalidate>
+        <fieldset>
+          <legend>Kumusta ang pakiramdam mo ngayon? <span class="en">How are you feeling right now?</span></legend>
+          <div class="mood-scale">
+            <label><input type="radio" name="mood" value="1"><span>Napakabigat<small>Very heavy</small></span></label>
+            <label><input type="radio" name="mood" value="2"><span>Mabigat<small>Heavy</small></span></label>
+            <label><input type="radio" name="mood" value="3"><span>Katamtaman<small>Okay</small></span></label>
+            <label><input type="radio" name="mood" value="4"><span>Magaan<small>Light</small></span></label>
+            <label><input type="radio" name="mood" value="5"><span>Masaya<small>Good</small></span></label>
+          </div>
+        </fieldset>
+        <label for="mood-note">Maikling tala (opsyonal) · Short note (optional)</label>
+        <input id="mood-note" maxlength="500" autocomplete="off">
+        <button type="submit" class="btn primary">I-save · Save</button>
+        <p class="status" id="mood-status" role="status" aria-live="polite"></p>
+      </form>
+      <h2 class="section-title">Nakaraang check-ins <span class="en">Recent check-ins</span></h2>
+      <ul class="entries" id="mood-list"></ul>
+    </section>
+
+    <!-- GROUNDING -->
+    <section data-view="grounding" aria-labelledby="grounding-title" hidden>
+      <h1 id="grounding-title">Grounding</h1>
+      <div class="card">
+        <h2>5-4-3-2-1</h2>
+        <p id="ground-step" class="ground-step" aria-live="polite">Pindutin ang “Simulan” kapag handa ka na. <span class="en">Press “Start” when you're ready.</span></p>
+        <div class="row">
+          <button type="button" class="btn primary" id="ground-next">Simulan · Start</button>
+          <button type="button" class="btn ghost" id="ground-reset">Ulitin · Restart</button>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Mabagal na paghinga <span class="en">Slow breathing</span></h2>
+        <p>Huminga nang 4 na bilang, pigilan nang 4, ilabas nang 4, pigilan nang 4. <span class="en">Box breathing: 4 in, 4 hold, 4 out, 4 hold.</span></p>
+        <div class="breath" id="breath" aria-hidden="true"><div class="breath-circle" id="breath-circle"></div></div>
+        <p class="breath-label" id="breath-label" aria-live="polite"></p>
+        <div class="row">
+          <button type="button" class="btn primary" id="breath-toggle">Simulan · Start</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAKAWALAN -->
+    <section data-view="pakawalan" aria-labelledby="pakawalan-title" hidden>
+      <h1 id="pakawalan-title">Pakawalan</h1>
+      <p>Isulat ang gusto mong bitawan. Kapag pinindot mo ang “Pakawalan”, mawawala ito. Hindi ito sine-save at hindi ipinapadala kahit saan. <span class="en">Write what you want to let go of. It is never saved or sent anywhere.</span></p>
+      <form class="card form" id="release-form" novalidate>
+        <label for="release-text" class="visually-hidden">Ang gusto mong pakawalan · What you want to let go of</label>
+        <textarea id="release-text" rows="6" maxlength="5000"></textarea>
+        <button type="submit" class="btn primary">Pakawalan · Let go</button>
+        <p class="status" id="release-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <!-- CRISIS: static so it works without JavaScript, the API, the AI, or a quota -->
+    <section data-view="tulong" aria-labelledby="tulong-title" hidden>
+      <h1 id="tulong-title">Kailangan ng tulong ngayon <span class="en">Help right now</span></h1>
+      <p class="lede">Kung ikaw o ibang tao ay nasa agarang panganib, tumawag sa <a href="tel:911">911</a>. Hindi kayang tumawag ng KARAMAY para sa iyo, pero may mga taong handang tumulong anumang oras. <span class="en">If you or someone else is in immediate danger, call 911. KARAMAY cannot call for you, but people are ready to help any time.</span></p>
+      <div class="card hotline">
+        <h2>Emergency (Pilipinas)</h2>
+        <p><a class="tel" href="tel:911">911</a> — buong bansa, 24/7</p>
+      </div>
+      <div class="card hotline">
+        <h2>NCMH Crisis Hotline</h2>
+        <p>National Center for Mental Health — para sa emosyonal na krisis at pag-iwas sa pagpapakamatay. 24/7.</p>
+        <ul class="phones">
+          <li><a class="tel" href="tel:1553">1553</a> — buong bansa · nationwide</li>
+          <li><a class="tel" href="tel:180018881553">1800-1888-1553</a> — toll-free</li>
+          <li><a class="tel" href="tel:+639190571553">0919-057-1553</a> — Smart/TNT</li>
+          <li><a class="tel" href="tel:+639178998727">0917-899-8727</a> — Globe/TM</li>
+          <li><a class="tel" href="tel:+639663514518">0966-351-4518</a> — Globe/TM</li>
+        </ul>
+        <p class="source">Pinagmulan · Source: ncmh.gov.ph/contact-us. Huling sinuri · Last checked: 2026-10-20.</p>
+      </div>
+      <div class="card">
+        <h2>Habang naghihintay <span class="en">While you wait</span></h2>
+        <ul>
+          <li>Kung kaya mo, lumapit o tumawag sa isang taong pinagkakatiwalaan mo. Huwag munang mag-isa.</li>
+          <li>Lumayo sa anumang bagay na maaaring makasakit sa iyo.</li>
+          <li>Subukan ang <a href="#/grounding">mabagal na paghinga</a>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- PRIVACY CENTER -->
+    <section data-view="privacy" aria-labelledby="privacy-title" hidden>
+      <h1 id="privacy-title">Privacy Center</h1>
+      <p class="lede">Simple at tapat na paliwanag kung saan napupunta ang data mo. <span class="en">A plain explanation of where your data goes.</span></p>
+
+      <div class="card">
+        <h2>Sa device mo lang <span class="en">Only on your device</span></h2>
+        <ul>
+          <li>Journal at mood check-ins kapag "Sa device lang" ang storage (default). <span class="en">Journal and mood entries when storage is "This device only" (the default).</span></li>
+          <li>Ang kasalukuyang usapan sa Kausap, habang bukas ang page. <span class="en">The current chat, while the page is open.</span></li>
+          <li>Mga setting (tema, storage, pagpayag sa AI). <span class="en">Settings (theme, storage choice, AI consent).</span></li>
+        </ul>
+        <p class="note">Kapag binura mo ang browser data, nag-uninstall, o nawala ang device, hindi na maibabalik ang mga ito. I-export muna kung gusto mong may kopya. <span class="en">Clearing browser data, uninstalling or losing the device deletes them permanently. Export first if you want a copy.</span></p>
+      </div>
+
+      <div class="card">
+        <h2>Sa server ng KARAMAY <span class="en">On KARAMAY servers</span></h2>
+        <ul>
+          <li>Isang session (random na identifier) para sa quota at seguridad. <span class="en">A session (random identifier) for quotas and security.</span></li>
+          <li>Journal at mood ng may account na pumili ng "Cloud". Naka-encrypt ito sa server, pero kayang i-decrypt ng server para maipakita sa iyo — <strong>hindi</strong> ito end-to-end. <span class="en">Journal and mood for accounts that choose "Cloud". Encrypted at rest; the server can decrypt it to show it to you, so it is not E2E.</span></li>
+          <li>Email at naka-hash na password kung gagawa ka ng account; status ng subscription kung magbabayad ka (walang card details). <span class="en">Email and hashed password if you create an account; subscription status if you pay (never card details).</span></li>
+          <li>Pinagsama-samang bilang ng paggamit ng AI (tokens at gastos), walang laman ng mensahe. <span class="en">Aggregated AI usage counts with no message content.</span></li>
+        </ul>
+        <p>Ang mga mensahe sa Kausap ay <strong>not stored on KARAMAY servers</strong>. Hindi rin isinasama ang laman ng journal o chat sa logs, analytics o error reports.</p>
+      </div>
+
+      <div class="card">
+        <h2>Ipinapadala sa Google Gemini <span class="en">Sent to Google Gemini</span></h2>
+        <p>Kapag nakipag-usap ka sa Kausap, ang mensahe mo at ilang huling palitan ng usapan ay ipinapadala sa Google Gemini para makabuo ng sagot. Hindi ipinapadala ang email, account ID, o journal mo. <span class="en">When you chat, your message and a few recent turns go to Google Gemini to generate a reply. Your email, account id and journal are not sent.</span></p>
+        <p>Ang paggamit ng Google sa data ay sakop ng Gemini API terms para sa uri ng serbisyong ginagamit ng KARAMAY. Maaaring itago ng Google ang mga mensahe nang limitadong panahon para sa pag-iwas sa abuso. <span class="en">Google's handling is governed by the Gemini API terms for the service tier KARAMAY uses; Google may retain prompts for a limited time for abuse monitoring.</span></p>
+        <p>Puwede mong gamitin ang journal, mood, grounding at Pakawalan nang walang anumang ipinapadala sa Gemini. <span class="en">Journal, mood, grounding and Pakawalan never send anything to Gemini.</span></p>
+      </div>
+
+      <div class="card">
+        <h2>Gaano katagal itinatago <span class="en">How long data is kept</span></h2>
+        <ul>
+          <li>Guest na hindi nagamit nang 30 araw: binubura ang session at anumang cloud data. <span class="en">Guests inactive for 30 days: session and any cloud data are deleted.</span></li>
+          <li>Account data: hanggang burahin mo. <span class="en">Account data: until you delete it.</span></li>
+          <li>Pinagsama-samang usage counts: hanggang ~13 buwan. <span class="en">Aggregated usage counts: about 13 months.</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Mga kontrol mo <span class="en">Your controls</span></h2>
+        <div class="row wrap">
+          <button type="button" class="btn" id="export-local">I-export ang nasa device · Export device data</button>
+          <button type="button" class="btn" id="export-server">I-export ang nasa server · Export server data</button>
+          <button type="button" class="btn danger" id="clear-local">Burahin ang nasa device · Delete device data</button>
+          <button type="button" class="btn danger" id="delete-server">Burahin ang server data / account · Delete server data</button>
+        </div>
+        <p class="status" id="privacy-status" role="status" aria-live="polite"></p>
+      </div>
+
+      <div class="card">
+        <h2>Mga ibang serbisyo <span class="en">Other providers</span></h2>
+        <p>Google (Gemini API) para sa AI na sagot. Ang hosting, database at payment provider ay ililista rito bago ang launch. <span class="en">Google (Gemini API) for AI replies. Hosting, database and payment providers will be listed here before launch.</span></p>
+        <p>Ang community (Bulong sa Hangin) ay hindi pa bukas hangga't wala pang sapat na moderation at proteksyon. <span class="en">The community space is not open until moderation and safety protections are ready.</span></p>
+      </div>
+    </section>
+
+    <!-- ACCOUNT -->
+    <section data-view="account" aria-labelledby="account-title" hidden>
+      <h1 id="account-title">Account</h1>
+      <p id="account-summary" class="lede"></p>
+      <p id="accounts-off" class="note" hidden>Hindi pa bukas ang paggawa ng account. Puwede mong gamitin ang lahat bilang guest. <span class="en">Accounts are not available yet; everything works as a guest.</span></p>
+      <div id="account-forms">
+        <form class="card form" id="login-form" novalidate>
+          <h2>Mag-log in <span class="en">Log in</span></h2>
+          <label for="login-email">Email</label>
+          <input id="login-email" type="email" autocomplete="username" required>
+          <label for="login-password">Password</label>
+          <input id="login-password" type="password" autocomplete="current-password" required>
+          <fieldset class="inline" id="guest-data-choice">
+            <legend>Ang cloud data mo bilang guest <span class="en">Your guest cloud data</span></legend>
+            <label><input type="radio" name="guestData" value="merge" checked> Ilipat sa account · Move to account</label>
+            <label><input type="radio" name="guestData" value="discard"> Burahin · Delete</label>
+          </fieldset>
+          <button type="submit" class="btn primary">Mag-log in · Log in</button>
+          <button type="button" class="btn link" id="forgot-btn">Nakalimutan ang password? · Forgot password?</button>
+          <p class="status" id="login-status" role="status" aria-live="polite"></p>
+        </form>
+        <form class="card form" id="register-form" novalidate>
+          <h2>Gumawa ng account <span class="en">Create an account</span></h2>
+          <p class="note">Opsyonal ito. Kailangan lang para sa cloud sync at premium. <span class="en">Optional: needed only for cloud sync and premium.</span></p>
+          <label for="register-email">Email</label>
+          <input id="register-email" type="email" autocomplete="email" required>
+          <label for="register-password">Password (hindi bababa sa 10 character)</label>
+          <input id="register-password" type="password" autocomplete="new-password" minlength="10" required>
+          <button type="submit" class="btn primary">Gumawa · Create</button>
+          <p class="status" id="register-status" role="status" aria-live="polite"></p>
+        </form>
+        <form class="card form" id="reset-form" hidden novalidate>
+          <h2>Bagong password <span class="en">New password</span></h2>
+          <label for="reset-password">Bagong password</label>
+          <input id="reset-password" type="password" autocomplete="new-password" minlength="10" required>
+          <button type="submit" class="btn primary">I-save · Save</button>
+          <p class="status" id="reset-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+      <div class="card" id="signed-in" hidden>
+        <h2>Naka-log in ka <span class="en">You're signed in</span></h2>
+        <p id="plan-line"></p>
+        <div class="row wrap">
+          <button type="button" class="btn" id="logout-btn">Mag-log out · Log out</button>
+          <button type="button" class="btn" id="logout-all-btn">Mag-log out sa lahat ng device · Log out everywhere</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SETTINGS -->
+    <section data-view="settings" aria-labelledby="settings-title" hidden>
+      <h1 id="settings-title">Settings</h1>
+      <form class="card form" id="settings-form">
+        <fieldset>
+          <legend>Tema · Theme</legend>
+          <label><input type="radio" name="theme" value="system"> Ayon sa device · System</label>
+          <label><input type="radio" name="theme" value="light"> Maliwanag · Light</label>
+          <label><input type="radio" name="theme" value="dark"> Madilim · Dark</label>
+        </fieldset>
+        <fieldset>
+          <legend>Saan ise-save ang journal at mood <span class="en">Where journal and mood are saved</span></legend>
+          <label><input type="radio" name="storage" value="local"> Sa device lang · This device only</label>
+          <label><input type="radio" name="storage" value="cloud" id="storage-cloud"> Cloud (kailangan ng account) · Cloud (account required)</label>
+        </fieldset>
+        <p class="note">Walang tunog ang KARAMAY. Sinusunod nito ang "reduce motion" setting ng device mo. <span class="en">KARAMAY plays no sounds and follows your reduced-motion setting.</span></p>
+        <p class="status" id="settings-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><strong>Emergency:</strong> <a href="tel:911">911</a> · <strong>NCMH Crisis Hotline:</strong> <a href="tel:1553">1553</a> (24/7)</p>
+    <p class="small">Wellness tool ang KARAMAY, hindi kapalit ng propesyonal na tulong. · <a href="#/privacy">Privacy</a> · <a href="#/settings">Settings</a></p>
+    <noscript><p>Kailangan ng JavaScript para sa karamihan ng features, pero ang mga numero sa itaas ay laging gumagana. · JavaScript is needed for most features; the numbers above always work.</p></noscript>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

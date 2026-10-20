@@ -1,0 +1,16 @@
+# Local development only: Postgres + Redis with throwaway credentials, bound to localhost.
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: local_dev_only
+    ports: ['127.0.0.1:5432:5432']
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./db/local-init.sql:/docker-entrypoint-initdb.d/00-roles.sql:ro
+  redis:
+    image: redis:7
+    command: ['redis-server', '--save', '', '--appendonly', 'no']
+    ports: ['127.0.0.1:6379:6379']
+volumes:
+  pgdata:
