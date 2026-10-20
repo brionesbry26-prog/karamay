@@ -26,17 +26,16 @@ There is also a private journal with guided prompts, mood check-ins, grounding e
 Requirements: Node 22.12+, plus PostgreSQL 16 and Redis 7 (via Docker, or installed locally).
 
 ```bash
-npm ci
+npm ci                 # installs dev dependencies too; NODE_ENV must not be "production"
 
 # 1. Start Postgres + Redis. Docker creates the local roles and database automatically:
 docker compose up -d
 #    Without Docker, run as a Postgres superuser instead:  psql -U postgres -f db/local-init.sql
 
 # 2. Configure (.env is git-ignored and loaded automatically by the npm scripts)
-cp .env.example .env
-#    then set two generated secrets in .env:
-#      DATA_ENCRYPTION_KEYS=1:<output of: openssl rand -base64 32>
-#      IP_HASH_KEY=<output of: openssl rand -hex 32>
+cp .env.example .env   # PowerShell: Copy-Item .env.example .env
+#    then generate two secrets and paste the printed lines over the placeholders in .env:
+npm run secrets
 
 # 3. Create the schema, then start the app
 npm run migrate
