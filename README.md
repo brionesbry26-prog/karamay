@@ -34,8 +34,7 @@ docker compose up -d
 
 # 2. Configure (.env is git-ignored and loaded automatically by the npm scripts)
 cp .env.example .env   # PowerShell: Copy-Item .env.example .env
-#    then generate two secrets and paste the printed lines over the placeholders in .env:
-npm run secrets
+npm run secrets        # fills DATA_ENCRYPTION_KEYS and IP_HASH_KEY in .env (never overwrites a valid key)
 
 # 3. Create the schema, then start the app
 npm run migrate
