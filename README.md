@@ -21,17 +21,45 @@ There is also a private journal with guided prompts, mood check-ins, grounding e
 | Web client | Static HTML, CSS and ES modules in `web/` (no build step, strict CSP, self-hosted Montserrat) |
 | Tests | Vitest against real Postgres and Redis; the Gemini SDK is exercised via injected fetch |
 
-## Quick start
+## Quick start (local)
+
+Requirements: Node 22.12+, plus PostgreSQL 16 and Redis 7 (via Docker, or installed locally).
 
 ```bash
-docker compose up -d                  # local Postgres + Redis (or use local installs)
-cp .env.example .env                  # fill in local values
 npm ci
+
+# 1. Start Postgres + Redis. Docker creates the local roles and database automatically:
+docker compose up -d
+#    Without Docker, run as a Postgres superuser instead:  psql -U postgres -f db/local-init.sql
+
+# 2. Configure (.env is git-ignored and loaded automatically by the npm scripts)
+cp .env.example .env
+#    then set two generated secrets in .env:
+#      DATA_ENCRYPTION_KEYS=1:<output of: openssl rand -base64 32>
+#      IP_HASH_KEY=<output of: openssl rand -hex 32>
+
+# 3. Create the schema, then start the app
 npm run migrate
-npm run dev                           # http://localhost:8080
+npm run dev            # open http://localhost:8080
 ```
 
-To run the tests, see `docs/TESTING.md`. The short version: `npm run typecheck && npm test`.
+What works out of the box: journal, mood, grounding, Pakawalan, Privacy Center, crisis page, and accounts. Account verification and reset links are printed in the terminal as `[dev-mail] ... link=...`; open that link in the browser.
+
+**AI chat** stays off ("the AI companion is resting") until you add a Gemini key. To enable it, set these in `.env`, then restart `npm run dev`:
+
+```
+AI_ENABLED=true
+GEMINI_API_KEY=<your key from Google AI Studio / Cloud console>
+GEMINI_MODEL=<a current model id from ai.google.dev/gemini-api/docs/models>
+GEMINI_PRICE_INPUT_USD_PER_MTOK=<price from ai.google.dev/gemini-api/docs/pricing>
+GEMINI_PRICE_OUTPUT_USD_PER_MTOK=<price>
+AI_BUDGET_DAILY_USD=1
+AI_BUDGET_MONTHLY_USD=10
+```
+
+Use a billing-enabled (paid tier) project for anything beyond your own test messages; see `docs/PRIVACY.md`.
+
+**Tests:** `npm run typecheck && npm test`. These need a Postgres superuser login to create a throwaway `karamay_test` database (default `postgres:postgres@localhost`; override with `TEST_SUPERUSER_URL`). See `docs/TESTING.md`.
 
 ## Scripts
 

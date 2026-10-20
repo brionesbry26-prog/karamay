@@ -19,9 +19,14 @@ export interface Mailer {
 export class DevOutboxMailer implements Mailer {
   readonly outbox: MailMessage[] = [];
 
+  /** echo=true (local development only) prints links to the terminal so sign-up can be completed without a mail server. */
+  constructor(private readonly echo = false) {}
+
   async send(msg: MailMessage): Promise<void> {
     this.outbox.push(msg);
     if (this.outbox.length > 200) this.outbox.shift();
+    // Deliberately console, not the app logger: dev-only output that never reaches log shipping.
+    if (this.echo) console.log(`[dev-mail] to=${msg.to} kind=${msg.kind}${msg.link ? ` link=${msg.link}` : ''}`);
   }
 
   lastFor(to: string, kind?: MailKind): MailMessage | undefined {

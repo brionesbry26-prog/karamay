@@ -136,12 +136,4 @@ Then copy `test/payments.test.ts` for the new adapter. Keep test and live keys i
 
 ## 12. Local development
 
-```bash
-docker compose up -d                 # postgres + redis on localhost (or use local installs)
-cp .env.example .env                 # then set DATABASE_URL to karamay_app / app_local_dev_only, etc.
-npm ci
-npm run migrate                      # uses DATABASE_MIGRATION_URL + DATABASE_APP_ROLE
-npm run dev                          # http://localhost:8080
-```
-
-For local accounts, set `MAILER=dev-outbox`. Mail then goes to an in-memory outbox (used by tests) and is never logged.
+See the Quick start in the README. The npm scripts load `.env` automatically when it exists (`--env-file-if-exists`). In production, set variables in the platform instead of shipping an `.env` file.

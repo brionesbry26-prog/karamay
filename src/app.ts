@@ -96,7 +96,7 @@ export async function buildApp(opts: BuildOptions): Promise<{ app: FastifyInstan
   const sessions = new SessionService(db, cfg);
   const abuse = new AbuseMonitor(limiter, cfg.limits.abuse, app.log, alerts);
   const aiProvider = opts.aiProvider !== undefined ? opts.aiProvider : cfg.ai.enabled ? new GeminiProvider(cfg.ai) : null;
-  const mailer = opts.mailer ?? (cfg.mailer === 'dev-outbox' ? new DevOutboxMailer() : new DisabledMailer());
+  const mailer = opts.mailer ?? (cfg.mailer === 'dev-outbox' ? new DevOutboxMailer(cfg.env === 'development') : new DisabledMailer());
   const payments =
     opts.payments !== undefined
       ? opts.payments
